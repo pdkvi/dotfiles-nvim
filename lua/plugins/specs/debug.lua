@@ -39,9 +39,9 @@ return
 		dap.adapters.lldb =
 		{
 			type = "executable",
-			command = "lldb-dap",
-			name = "lldb"
+			command = vim.env.HOME .. "/.local/bin/lldb-dap",
 		}
+
 		dap.configurations.cpp =
 		{
 			{
@@ -49,8 +49,7 @@ return
 				type = "lldb",
 				request = "launch",
 				program = function()
-					return vim.fn.getcwd() .. "/build/sandbox"
-					-- return vim.fn.input("path to exec: ", vim.fn.getcwd() .. "/", "file")
+					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
 				end,
 				cwd = "${workspaceFolder}",
 				stopOnEntry = false
