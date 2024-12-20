@@ -39,7 +39,7 @@ return
 		dap.adapters.lldb =
 		{
 			type = "executable",
-			command = "lldb-dap-18",
+			command = "lldb-dap",
 			name = "lldb"
 		}
 		dap.configurations.cpp =
