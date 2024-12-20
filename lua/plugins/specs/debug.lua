@@ -49,7 +49,20 @@ return
 				type = "lldb",
 				request = "launch",
 				program = function()
-					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					local cwd = vim.fn.getcwd()
+					local file = io.open(cwd .. "/CMakeLists.txt", "r")
+					if file == nil then
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end
+					file:close()
+
+					local cmake = require("cmake-tools")
+
+					local co = coroutine.running()
+					cmake.select_launch_target(false, function() coroutine.resume(co) end)
+					coroutine.yield()
+
+					return cmake.get_launch_target_path()
 				end,
 				cwd = "${workspaceFolder}",
 				stopOnEntry = false
