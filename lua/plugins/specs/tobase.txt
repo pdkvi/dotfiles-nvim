@@ -1,0 +1,10 @@
+trailspace
+autopairs
+comment
+buffers (? somehow exclude non-base buffers from unkillable)
+boole
+
+colorscheme
+indentline
+statusline (? somehow make lsp status optional)
+gitsigns
