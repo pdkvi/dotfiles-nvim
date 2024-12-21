@@ -1,6 +1,9 @@
+-- TODO: separate at multiple modules with init.lua (?)
+
 return
 {
 	"famiu/bufdelete.nvim",
+	dependencies = { "tiagovla/scope.nvim" },
 
 	config = function()
 		local buffer = require("bufdelete")
@@ -22,5 +25,11 @@ return
 
 			buffer.bufdelete(0, false)
 		end)
+
+		require("scope").setup({})
+		local _, telescope = pcall(require, "telescope")
+		if telescope ~= nil then
+			telescope.load_extension("scope")
+		end
 	end
 }

@@ -44,10 +44,13 @@ return
 		end)
 
 		vim.keymap.set("n", "<leader>tc", function()
-			local windows = vim.api.nvim_tabpage_list_wins(0)
-			for _, window in ipairs(windows) do
-				local buffer = vim.api.nvim_win_get_buf(window)
-				vim.api.nvim_buf_delete(buffer, { force = false, unload = false })
+			---@diagnostic disable-next-line: param-type-mismatch
+			local is_closed = pcall(vim.cmd, "tabclose")
+
+			if is_closed == false then
+				vim.notify("Cannot close last tab page", vim.log.levels.ERROR, {
+					title = "Error"
+				})
 			end
 		end)
 
