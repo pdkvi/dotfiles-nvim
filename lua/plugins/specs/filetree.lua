@@ -11,6 +11,17 @@ return
 			on_attach = function(bufnr)
 				local api = require("nvim-tree.api")
 				api.config.mappings.default_on_attach(bufnr)
+
+				local windows = vim.api.nvim_tabpage_list_wins(0)
+
+				for _, window in ipairs(windows) do
+					local buf = vim.api.nvim_win_get_buf(window)
+					local bt = vim.api.nvim_get_option_value("buftype", { buf = buf })
+					if bt == "" then return end
+				end
+
+				vim.cmd("enew")
+				api.tree.open()
 			end,
 
 			hijack_cursor = true,
