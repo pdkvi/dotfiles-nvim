@@ -26,10 +26,10 @@ return
 			}
 		})
 
-		--telescope.load_extension("notify")
+		telescope.load_extension("notify")
 
 		local builtin = require('telescope.builtin')
-		--vim.keymap.set("n", "<leader>ft", telescope.extensions.notify.notify)
+		vim.keymap.set("n", "<leader>fn", telescope.extensions.notify.notify)
 		vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 		vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 		vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
