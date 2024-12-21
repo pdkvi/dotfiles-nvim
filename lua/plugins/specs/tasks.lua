@@ -21,6 +21,10 @@ return
 
 				Config.cwd = vim.fn.resolve(cwd)
 				cmake.register_scratch_buffer(config.executor.name, config.runner.name)
+
+				vim.notify("Changed project root directory to " .. Config.cwd, nil, {
+					title = "CMake"
+				})
 			end
 		})
 	end
