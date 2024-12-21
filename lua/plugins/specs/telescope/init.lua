@@ -1,3 +1,5 @@
+local buffers = require("plugins.specs.telescope.buffers")
+
 return
 {
 	"nvim-telescope/telescope.nvim", branch = "0.1.x",
@@ -32,7 +34,7 @@ return
 		vim.keymap.set("n", "<leader>fn", telescope.extensions.notify.notify)
 		vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 		vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-		vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+		vim.keymap.set('n', '<leader>fb', function() buffers({ excluded_bt = { "terminal" } }) end, {})
 		vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 		vim.keymap.set('n', '<leader>fm', function() builtin.man_pages({ sections = { "ALL" } }) end, {})
 	end
