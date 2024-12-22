@@ -15,13 +15,6 @@ return
 		"FelipeLema/cmp-async-path",
 
 		-- lsp
-		--[[ { "ray-x/lsp_signature.nvim", opts = {
-			floating_window = false,
-			hint_enable = false,
-			select_signature_key = "<C-S-Space>",
-			toggle_key_flip_floatwin_setting=true
-		}}, ]]
-		"hrsh7th/cmp-nvim-lsp-signature-help",
 		"hrsh7th/cmp-nvim-lsp",
 
 		-- calc
@@ -197,7 +190,6 @@ return
 				{ name = "luasnip" },
 				{ name = "conventionalcommits" },
 				{ name = "async_path" },
-				{ name = "nvim_lsp_signature_help" },
 				{ name = "nvim_lsp" },
 				{ name = "buffer" },
 				{ name = "calc" }
