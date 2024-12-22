@@ -15,6 +15,7 @@ return
 		"FelipeLema/cmp-async-path",
 
 		-- lsp
+		"hrsh7th/cmp-nvim-lsp-signature-help",
 		"hrsh7th/cmp-nvim-lsp",
 
 		-- calc
@@ -190,6 +191,7 @@ return
 				{ name = "luasnip" },
 				{ name = "conventionalcommits" },
 				{ name = "async_path" },
+				{ name = 'nvim_lsp_signature_help' },
 				{ name = "nvim_lsp" },
 				{ name = "buffer" },
 				{ name = "calc" }

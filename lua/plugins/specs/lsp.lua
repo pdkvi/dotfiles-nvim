@@ -14,7 +14,7 @@ return
 				}
 			}
 		},
-		"Issafalcon/lsp-overloads.nvim"
+		-- "Issafalcon/lsp-overloads.nvim"
 	},
 
 	config = function()
@@ -64,30 +64,6 @@ return
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-		local function on_attach(client, bufnr)
-			if client.server_capabilities.signatureHelpProvider then
-				vim.keymap.set("i", "<C-S-Space>", "<cmd>LspOverloadsSignature<cr>", { buffer = bufnr })
-
-				require('lsp-overloads').setup(client,
-				{
-					ui =
-					{
-						border = "rounded",
-						close_events = {"CursorMoved", "CursorMovedI", "InsertCharPre"}
-					},
-
-					keymaps =
-					{
-						next_signature = "<C-j>",
-						previous_signature = "<C-k>",
-						next_parameter = "<C-l>",
-						previous_parameter = "<C-h>",
-						close_signature = "<C-S-Space>"
-					}
-				})
-			end
-		end
-
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities.textDocument.foldingRange = {
 			dynamicRegistration = false,
@@ -95,7 +71,6 @@ return
 		}
 
 		lspconfig.lua_ls.setup({
-			on_attach = on_attach,
 			capabilities = capabilities,
 			handlers = handlers,
 			settings =
@@ -116,14 +91,12 @@ return
 		--	}
 		--})
 		lspconfig.clangd.setup({
-			on_attach = on_attach,
 			handlers = handlers,
 			capabilities = capabilities,
 			cmd = { "clangd", "--header-insertion=never" }
 		})
 
 		lspconfig.neocmake.setup({
-			on_attach = on_attach,
 			handlers = handlers,
 			capabilities = capabilities
 		})
