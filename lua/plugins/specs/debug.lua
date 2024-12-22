@@ -18,7 +18,7 @@ return
 		vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "Error" })
 		vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "Error" })
 
-		local color = require("lackluster").color
+		local color = require("lackluster.color")
 
 		vim.api.nvim_set_hl(0, "DapStoppedText", { fg = color.yellow, bold = true })
 
