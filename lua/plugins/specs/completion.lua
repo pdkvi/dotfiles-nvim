@@ -139,6 +139,70 @@ return
             fcall(fallback, cmp.complete())
         end
 
+        -- missing TypeParameter = ' '
+        local filters =
+        {
+            -- types
+            ["<M-t>"] = { "Class", "Struct", "Enum" },
+            ["<M-i>"] = { "Interface" },
+
+            -- special methods
+            ["<M-c>"] = { "Constructor" },
+            ["<M-o>"] = { "Operator" },
+            ["<M-e>"] = { "Event" },
+
+            -- regular methods
+            ["<M-m>"] = { "Method", "Function" },
+
+            -- regular fields
+            ["<M-f>"] = { "Field", "Variable" },
+
+            -- constants
+            ["<M-v>"] = { "Value", "EnumMember", "Constant", "Color" },
+
+            ["<M-p>"] = { "Property" },
+            ["<M-n>"] = { "Module" },
+            ["<M-s>"] = { "Snippet" }
+        }
+
+        for key, kinds in pairs(filters) do
+            cmp_mappings[key] = function(fallback)
+                if cmp.visible() == false then
+                    fallback()
+                    return
+                end
+
+                local filter_fn
+
+                if _G.selected_cmp_filter == kinds then
+                    _G.selected_cmp_filter = {}
+                    filter_fn = function(_) return true end
+                else
+                    _G.selected_cmp_filter = kinds
+                    filter_fn = function(entry)
+                        local types = require("cmp.types")
+                        local item_kind = types.lsp.CompletionItemKind[entry:get_kind()]
+
+                        return vim.tbl_contains(kinds, item_kind)
+                    end
+                end
+
+                cmp.complete({
+                    config =
+                    {
+                        sources =
+                        {
+                            {
+                                name = "nvim_lsp",
+                                entry_filter = filter_fn
+                            }
+                        }
+                    }
+                })
+
+            end
+        end
+
         vim.opt.pumheight = 15
         require("luasnip.loaders.from_snipmate").load()
 
