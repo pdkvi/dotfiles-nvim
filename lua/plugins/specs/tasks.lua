@@ -27,5 +27,13 @@ return
                 })
             end
         })
+
+        vim.keymap.set("n", "<F3>", function() cmake.generate({}) end)
+
+        vim.keymap.set("n", "<F7>", function()
+            cmake.select_launch_target(false, function()
+                cmake.build({ target = cmake.get_launch_target() })
+            end)
+        end)
     end
 }
