@@ -1,9 +1,3 @@
-local Path = require("plenary.path")
-local utils = require("telescope.utils")
-local pickers = require("telescope.pickers")
-local finders = require("telescope.finders")
-local make_entry = require("telescope.make_entry")
-local conf = require("telescope.config").values
 
 local function apply_cwd_only_aliases(opts)
     opts = opts or {}
@@ -21,6 +15,7 @@ end
 
 ---@return boolean
 local function buf_in_cwd(bufname, cwd)
+    local Path = require("plenary.path")
     if cwd:sub(-1) ~= Path.path.sep then
         cwd = cwd .. Path.path.sep
     end
@@ -59,6 +54,7 @@ return function(opts)
     end, vim.api.nvim_list_bufs())
 
     if not next(bufnrs) then
+        local utils = require("telescope.utils")
         utils.notify("builtin.buffers", { msg = "No buffers found with the provided options", level = "INFO" })
         return
     end
@@ -96,6 +92,11 @@ return function(opts)
         local max_bufnr = math.max(unpack(bufnrs))
         opts.bufnr_width = #tostring(max_bufnr)
     end
+
+    local pickers = require("telescope.pickers")
+    local finders = require("telescope.finders")
+    local make_entry = require("telescope.make_entry")
+    local conf = require("telescope.config").values
 
     pickers
     .new(opts, {
