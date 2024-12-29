@@ -7,7 +7,7 @@ end
 return
 {
     "echasnovski/mini.starter",
-    dependenceis = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
 
     config = function()
         local starter = require("mini.starter")
