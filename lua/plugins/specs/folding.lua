@@ -13,11 +13,25 @@ return
         vim.opt.foldlevel = 99
         vim.opt.foldenable = true
 
-        require("ufo").setup({
+        local ufo = require("ufo")
+        ufo.setup({
             open_fold_hl_timeout = 0,
 
             provider_selector = function(_, _, _)
-                return { "lsp", "indent" }
+                return function(bufnr)
+                    ---@param folds UfoFoldingRange[]
+                    local function add_marker_folds(folds)
+                        return vim.list_extend(folds, ufo.getFolds(bufnr, "marker"))
+                    end
+
+                    return ufo.getFolds(bufnr, "lsp"):thenCall(
+                        add_marker_folds,
+                        function()
+                            local indent_folds = ufo.getFolds(bufnr, "indent")
+                            return add_marker_folds(indent_folds)
+                        end
+                    )
+                end
             end,
 
             fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
