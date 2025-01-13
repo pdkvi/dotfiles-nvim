@@ -93,7 +93,15 @@ return
                 lspconfig.clangd.setup({
                     handlers = handlers,
                     capabilities = capabilities,
-                    cmd = { "clangd", "--header-insertion=never" }
+                    cmd =
+                    {
+                        "clangd",
+                        "--header-insertion=never",
+                        "-j=4",
+                        "--malloc-trim",
+                        "--background-index",
+                        "--pch-storage=memory"
+                    }
                 })
 
                 lspconfig.neocmake.setup({
