@@ -5,6 +5,15 @@ return
         local cmake = require("cmake-tools")
         cmake.setup({
             cmake_regenerate_on_save = false,
+            cmake_generate_options =
+            {
+                "-GNinja",
+
+                "-DCMAKE_C_COMPILER=clang",
+                "-DCMAKE_CXX_COMPILER=clang++",
+
+                "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+            },
             cmake_dap_configuration = { type = "lldb" }
         })
 
