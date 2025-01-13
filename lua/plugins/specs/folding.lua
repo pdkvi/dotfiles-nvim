@@ -21,7 +21,7 @@ return
                 return function(bufnr)
                     ---@param folds UfoFoldingRange[]
                     local function add_marker_folds(folds)
-                        return vim.list_extend(folds, ufo.getFolds(bufnr, "marker"))
+                        return vim.list_extend(folds or {}, ufo.getFolds(bufnr, "marker") or {})
                     end
 
                     return ufo.getFolds(bufnr, "lsp"):thenCall(
