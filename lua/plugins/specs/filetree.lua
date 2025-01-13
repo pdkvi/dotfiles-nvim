@@ -76,5 +76,16 @@ return
 
         local api = require("nvim-tree.api")
         vim.keymap.set("n", "<leader>e", api.tree.toggle, { desc = "Toggle filesystem tree" })
+
+        vim.api.nvim_create_autocmd("DirChanged",
+        {
+            pattern = "window",
+            callback = function(opts)
+                local ft = vim.api.nvim_get_option_value("filetype", { buf = opts.buf })
+                if ft == "NvimTree" then
+                    vim.cmd("tcd " .. opts.file)
+                end
+            end
+        })
     end
 }
