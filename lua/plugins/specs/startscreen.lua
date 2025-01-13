@@ -1,7 +1,6 @@
 ---@param path string
 local function startscreen_cd(path)
     vim.cmd("tcd " .. path)
-    vim.cmd("bd")
     require("nvim-tree.api").tree.open()
 end
 
