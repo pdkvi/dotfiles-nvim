@@ -53,6 +53,21 @@ return
                 }
             },
 
+            filesystem_watchers =
+            {
+                enable = true,
+                debounce_delay = 50,
+                ignore_dirs =
+                {
+                    "/.cache",
+                    "/.ccls-cache",
+                    "/build",
+                    "/out",
+                    "/node_modules",
+                    "/target",
+                },
+            },
+
             modified = { enable = true },
 
             notify = { threshold = vim.log.levels.WARN }
