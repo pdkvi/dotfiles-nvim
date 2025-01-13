@@ -53,6 +53,8 @@ return
                 }
             },
 
+            filters = { custom = { "^\\.git$" }, },
+
             filesystem_watchers =
             {
                 enable = true,
