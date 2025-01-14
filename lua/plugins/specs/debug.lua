@@ -39,7 +39,7 @@ return
         dap.adapters.lldb =
         {
             type = "executable",
-            command = vim.env.HOME .. "/.local/bin/lldb-dap",
+            command = "lldb-dap"
         }
 
         dap.configurations.cpp =
