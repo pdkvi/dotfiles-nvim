@@ -7,7 +7,7 @@ vim.opt.equalalways = false
 vim.opt.fileencoding = "utf-8"
 
 vim.opt.expandtab = true
-vim.opt.cinoptions = ">s,e0,n0,f0,{0,}0,^0,L-1,:s,=s,l0,b0,g0,hs,N0,E0,ps," ..
+vim.opt.cinoptions = ">s,e0,n0,f0,{0,}0,^0,L-1,:s,=s,l0,b0,g0,hs,N-s,E-s,ps," ..
                      "t0,is,+s,c3,C0,/0,(s,us,U0,ws,Ws,k0,m1,M0,j1,J1"
 
 vim.opt.showmode = false
