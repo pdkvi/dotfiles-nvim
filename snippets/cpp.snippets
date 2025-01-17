@@ -14,3 +14,13 @@ snippet class
     public:
         $0
     };
+
+snippet interface
+    class $1
+    {
+    public:
+        virtual ~$1() = default;
+
+    public:
+        $0
+    };
