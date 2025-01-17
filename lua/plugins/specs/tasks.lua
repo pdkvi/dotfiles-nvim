@@ -14,7 +14,8 @@ return
 
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
             },
-            cmake_dap_configuration = { type = "lldb" }
+            cmake_dap_configuration = { type = "lldb" },
+            cmake_virtual_text_support = false
         })
 
         vim.api.nvim_create_autocmd("DirChanged",
