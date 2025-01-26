@@ -140,51 +140,59 @@ return
         end
 
         -- missing TypeParameter = ' '
-        local filters =
-        {
-            -- types
-            ["<M-t>"] = { "Class", "Struct", "Enum" },
-            ["<M-i>"] = { "Interface" },
+        local filters = {}
 
-            -- special methods
-            ["<M-c>"] = { "Constructor" },
-            ["<M-o>"] = { "Operator" },
-            ["<M-e>"] = { "Event" },
+        -- types
+        table.insert(filters, { keymap = "<M-t>", filter = { "Class", "Struct", "Enum" } })
+        table.insert(filters, { keymap = "<M-i>", filter = { "Interface" }})
 
-            -- regular methods
-            ["<M-m>"] = { "Method", "Function" },
+        -- special methods
+        table.insert(filters, { keymap = "<M-c>", filter = { "Constructor" }})
+        table.insert(filters, { keymap = "<M-o>", filter = { "Operator" }})
+        table.insert(filters, { keymap = "<M-e>", filter = { "Event" }})
 
-            -- regular fields
-            ["<M-f>"] = { "Field", "Variable" },
+        -- regular methods
+        table.insert(filters, { keymap = "<M-m>", filter = { "Method", "Function" }})
 
-            -- constants
-            ["<M-v>"] = { "Value", "EnumMember", "Constant", "Color" },
+        -- regular fields
+        table.insert(filters, { keymap = "<M-f>", filter = { "Field", "Variable" }})
 
-            ["<M-p>"] = { "Property" },
-            ["<M-n>"] = { "Module" },
-            ["<M-s>"] = { "Snippet" }
-        }
+        -- constants
+        table.insert(filters, { keymap = "<M-v>", filter = { "Value", "EnumMember", "Constant", "Color" }})
 
-        for key, kinds in pairs(filters) do
+        table.insert(filters, { keymap = "<M-p>", filter = { "Property" }})
+        table.insert(filters, { keymap = "<M-n>", filter = { "Module" }})
+        table.insert(filters, { keymap = "<M-s>", filter = { "Snippet" }})
+
+        _G.selected_cmp_filters = {}
+
+        for _, entry in ipairs(filters) do
+            local key = entry.keymap
+            local kinds = entry.filter
+
             cmp_mappings[key] = function(fallback)
                 if cmp.visible() == false then
                     fallback()
                     return
                 end
 
-                local filter_fn
+                local filter_fn = function(entry)
+                    local types = require("cmp.types")
+                    local item_kind = types.lsp.CompletionItemKind[entry:get_kind()]
 
-                if _G.selected_cmp_filter == kinds then
-                    _G.selected_cmp_filter = {}
-                    filter_fn = function(_) return true end
-                else
-                    _G.selected_cmp_filter = kinds
-                    filter_fn = function(entry)
-                        local types = require("cmp.types")
-                        local item_kind = types.lsp.CompletionItemKind[entry:get_kind()]
-
-                        return vim.tbl_contains(kinds, item_kind)
+                    for filter, _ in pairs(_G.selected_cmp_filters) do
+                        if vim.tbl_contains(filter, item_kind) == true then
+                            return true
+                        end
                     end
+
+                    return false
+                end
+
+                if _G.selected_cmp_filters[kinds] ~= nil then
+                    _G.selected_cmp_filters[kinds] = nil
+                else
+                    _G.selected_cmp_filters[kinds] = true
                 end
 
                 cmp.complete({
@@ -261,6 +269,10 @@ return
                 { name = "calc" }
             })
         })
+
+        cmp.core.view.event:on("menu_closed", function()
+            _G.selected_cmp_filters = {}
+        end)
 
         local cmdline_mappings = {}
         for _, mapping in ipairs({ "<Tab>", "<C-Space>", "<C-S-Space>" }) do
