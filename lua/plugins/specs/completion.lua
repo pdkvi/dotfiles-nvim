@@ -224,8 +224,14 @@ return
                 end
             },
 
-            window = {
-                completion = { side_padding = 0 },
+            window =
+            {
+                completion =
+                {
+                    side_padding = 0,
+                    border = { "", "", "", "", "", " ", "", "" },
+                    winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None,FloatFooter:Pmenu",
+                },
                 documentation = {
                     -- TODO: should set to NormalFloat somewhere in ideal world
                     winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
@@ -243,6 +249,10 @@ return
                     local trunk = vim_item.abbr:sub(1, 70)
                     if #trunk ~= #vim_item.abbr then
                         vim_item.abbr = trunk .. "..."
+                    end
+
+                    if vim_item.abbr:len() < 45 then
+                        vim_item.abbr = ("%s%s"):format(vim_item.abbr, (" "):rep(45 - vim_item.abbr:len()))
                     end
 
                     vim_item.menu = ("[%s]"):format(vim_item.kind)
@@ -269,6 +279,32 @@ return
                 { name = "calc" }
             })
         })
+
+        ---@diagnostic disable-next-line: invisible
+        local old_open = cmp.core.view:_get_entries_view().entries_win.open
+
+        ---@diagnostic disable-next-line: invisible
+        cmp.core.view:_get_entries_view().entries_win.open = function(self, style)
+            local footer = {}
+
+            for _, entry in ipairs(filters) do
+                local key = entry.keymap
+                local kinds = entry.filter
+
+                local kind_icon = kind_icons[kinds[1]]
+                local kind_key = key:sub(4, 4)
+
+                local entry = (" %s%s "):format(kind_icon, kind_key)
+                table.insert(footer, { entry, _G.selected_cmp_filters[kinds] == true and "CmpItemKind" or "FloatFooter" })
+            end
+
+
+            old_open(self, vim.tbl_extend("keep", style,
+            {
+                footer = footer,
+                footer_pos = "center"
+            }))
+        end
 
         cmp.core.view.event:on("menu_closed", function()
             _G.selected_cmp_filters = {}
