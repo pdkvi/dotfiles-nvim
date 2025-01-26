@@ -229,7 +229,6 @@ return
                 completion =
                 {
                     side_padding = 0,
-                    border = { "", "", "", "", "", " ", "", "" },
                     winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None,FloatFooter:Pmenu",
                 },
                 documentation = {
@@ -285,6 +284,12 @@ return
 
         ---@diagnostic disable-next-line: invisible
         cmp.core.view:_get_entries_view().entries_win.open = function(self, style)
+            local api = require("cmp.utils.api")
+            if api.is_cmdline_mode() then
+                old_open(self, style)
+                return
+            end
+
             local footer = {}
 
             for _, entry in ipairs(filters) do
@@ -299,10 +304,11 @@ return
             end
 
 
-            old_open(self, vim.tbl_extend("keep", style,
+            old_open(self, vim.tbl_extend("force", style,
             {
                 footer = footer,
-                footer_pos = "center"
+                footer_pos = "center",
+                border = { "", "", "", "", "", " ", "", "" }
             }))
         end
 
