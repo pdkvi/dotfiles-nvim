@@ -180,13 +180,17 @@ return
                     local types = require("cmp.types")
                     local item_kind = types.lsp.CompletionItemKind[entry:get_kind()]
 
+                    local count = 0
                     for filter, _ in pairs(_G.selected_cmp_filters) do
                         if vim.tbl_contains(filter, item_kind) == true then
                             return true
                         end
+
+                        count = count + 1
                     end
 
-                    return false
+                    -- return all items if selected filters empty
+                    return count == 0 and true or false
                 end
 
                 if _G.selected_cmp_filters[kinds] ~= nil then
