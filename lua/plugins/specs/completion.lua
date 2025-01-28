@@ -1,3 +1,5 @@
+-- TODO: create dynamic construction of kinds filter (?)
+
 return
 {
     "hrsh7th/nvim-cmp",
@@ -219,6 +221,10 @@ return
         require("luasnip.loaders.from_snipmate").load()
 
         cmp.setup({
+            enabled = function()
+                return not luasnip.in_snippet()
+            end,
+
             completion = { completeopt = "menu,menuone,noinsert" },
 
             snippet =
