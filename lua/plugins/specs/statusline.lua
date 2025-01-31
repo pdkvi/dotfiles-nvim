@@ -131,7 +131,15 @@ return
                 },
                 lualine_z =
                 {
-                    { 'progress', separator = "/" }, { 'location' }
+                    {
+                        'location',
+
+                        ---@param str string
+                        ---@return string
+                        fmt = function(str)
+                            return str:gsub(".*:", "col: ")
+                        end
+                    }
                 }
             }
         })
