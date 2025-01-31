@@ -77,8 +77,12 @@ return
             {
                 Lua =
                 {
-                    diagnostics = {
-                        disable = { "redefined-local" }
+                    diagnostics =
+                    {
+                        disable =
+                        {
+                            "redefined-local", "redundant-return-value"
+                        }
                     }
                 }
             }
