@@ -53,7 +53,7 @@ return
                 }
             },
 
-            filters = { custom = { "^\\.git$" }, },
+            filters = { custom = { "^\\.git$", "^out$" } },
 
             filesystem_watchers =
             {
