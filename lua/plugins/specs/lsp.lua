@@ -29,8 +29,8 @@ return
         vim.keymap.set("n", "<A-CR>", vim.lsp.buf.code_action)
         vim.keymap.set({"i", "n"}, "<F2>", vim.lsp.buf.rename)
 
-        -- <C-i>
-        vim.keymap.set("n", "\u{f7fe}", vim.lsp.buf.hover)
+        -- <C-i> = \u{f7fe}
+        vim.keymap.set("n", "<S-i>", vim.lsp.buf.hover)
 
         vim.keymap.set("n", "K", function()
             local float_bufnr, win_id = vim.diagnostic.open_float()
