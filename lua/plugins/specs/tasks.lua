@@ -47,5 +47,23 @@ return
         vim.keymap.set("n", "<F19>", function()
             cmake.build({ target = nil })
         end)
+
+        vim.keymap.set("n", "<F17>", function()
+            local co = coroutine.create(function()
+                local co = coroutine.running()
+
+                if cmake.get_build_target() == nil then
+                    cmake.build({ target = nil }, function()
+                        coroutine.resume(co)
+                    end)
+
+                    coroutine.yield()
+                end
+
+                vim.fn.system({ "xdg-terminal-exec", cmake.get_build_target_path()})
+            end)
+
+            coroutine.resume(co)
+        end)
     end
 }
