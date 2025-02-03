@@ -60,7 +60,12 @@ return
                     coroutine.yield()
                 end
 
-                vim.fn.system({ "xdg-terminal-exec", cmake.get_build_target_path()})
+                vim.system({
+                    "xdg-terminal-exec", "bash", "-c",
+                    cmake.get_build_target_path() .. " && " ..
+                    "printf '\\nPress any key to continue...'" .. " && " ..
+                    "read -sr -n 1"
+                })
             end)
 
             coroutine.resume(co)
