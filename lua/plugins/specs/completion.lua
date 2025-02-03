@@ -300,6 +300,15 @@ return
                 return
             end
 
+            local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+            -- cursor row relative to editor
+            local absolute_row = vim.fn.screenpos(0, row, col).row
+
+            if absolute_row ~= style.row then
+                style.row = style.row - 1
+            end
+
             local footer = {}
 
             for _, entry in ipairs(filters) do
