@@ -76,7 +76,16 @@ return
                             action = function() require("lazy").home() end
                         },
 
-                        { name = "Quit", action = function() vim.cmd("qa") end }
+                        {
+                            name = "Quit",
+                            action = function()
+                                if #vim.api.nvim_list_tabpages() == 1 then
+                                    vim.cmd("qa")
+                                else
+                                    vim.cmd("tabclose")
+                                end
+                            end
+                        }
                     }
 
                     vim.iter(entries):each(function(entry) entry.section = section end)
