@@ -16,6 +16,8 @@ return
         telescope.setup({
             defaults =
             {
+                file_ignore_patterns = { "out" },
+
                 mappings =
                 {
                     n = common_mappings,
