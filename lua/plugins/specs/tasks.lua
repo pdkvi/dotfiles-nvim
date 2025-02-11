@@ -2,8 +2,8 @@ return
 {
     "Civitasv/cmake-tools.nvim",
     config = function()
-        local cmake = require("cmake-tools")
-        cmake.setup({
+        local const = vim.tbl_extend("force", require("cmake-tools.const"),
+        {
             cmake_regenerate_on_save = false,
             cmake_generate_options =
             {
@@ -18,6 +18,9 @@ return
             cmake_virtual_text_support = false
         })
 
+        local cmake = require("cmake-tools")
+        cmake.setup(const)
+
         vim.api.nvim_create_autocmd("DirChanged",
         {
             callback = function()
@@ -26,13 +29,13 @@ return
                 if file == nil then return end
                 file:close()
 
-                local Config = require("cmake-tools.config")
-                local config = Config:new(require("cmake-tools.const"))
+                local config = cmake.get_config()
 
-                Config.cwd = vim.fn.resolve(cwd)
+                config.cwd = vim.fn.resolve(cwd)
+                config:update_build_dir(const.cmake_build_directory, const.cmake_build_directory)
                 cmake.register_scratch_buffer(config.executor.name, config.runner.name)
 
-                vim.notify("Changed project root directory to " .. Config.cwd, nil, {
+                vim.notify("Changed project root directory to " .. config.cwd, nil, {
                     title = "CMake"
                 })
             end
