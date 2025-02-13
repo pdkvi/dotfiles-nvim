@@ -6,7 +6,8 @@ end
 
 return
 {
-    "DNLHC/glance.nvim", cmd = "Glance",
+    "DNLHC/glance.nvim",
+
     config = function()
         local glance = require("glance")
         local actions = glance.actions
@@ -21,10 +22,16 @@ return
                     ["<C-j>"] = actions.preview_scroll_win(-2),
                     ["<C-k>"] = actions.preview_scroll_win(2),
                     ["<C-x>"] = actions.jump_split,
-                    ["<C-v>"] = actions.jump_vsplit
+                    ["<C-v>"] = actions.jump_vsplit,
+                    ["<Tab>"] = actions.toggle_fold
                 }
             }
         })
 
+        vim.keymap.set("n", "<C-\\>", function() glance.open("implementations") end)
+
+        -- TODO: create more meaningful keymaps for this features...
+        vim.keymap.set("n", "<leader>gr", function() glance.open("references") end)
+        vim.keymap.set("n", "<leader>gt", function() glance.open("type_definitions") end)
     end
 }

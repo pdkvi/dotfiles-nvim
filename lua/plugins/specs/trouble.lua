@@ -21,8 +21,6 @@ return
         vim.keymap.set("n", "<leader>d", "<cmd>Trouble diagnostics toggle<cr>")
         vim.keymap.set("n", "<leader>o", "<cmd>Trouble lsp_document_symbols toggle<cr>")
 
-        vim.keymap.set("n", "<leader>cr", "<cmd>Trouble lsp_references toggle<cr>")
-
         ---@param name string
         ---@return vim.api.keyset.highlight
         local function hl(name)
