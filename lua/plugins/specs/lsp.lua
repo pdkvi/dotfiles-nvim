@@ -71,6 +71,10 @@ return
             lineFoldingOnly = true
         }
 
+        local common_on_attach = function(client, bufnr)
+            vim.opt.tagfunc = "v:lua.preview_tagfunc"
+        end
+
         local servers =
         {
             lua_ls =
@@ -109,6 +113,12 @@ return
         for server, config in pairs(servers) do
             config.capabilities = vim.tbl_extend("keep", config.capabilities or {}, common_capabilities)
             config.handlers = vim.tbl_extend("keep", config.handlers or {}, common_handlers)
+
+            local config_on_attach = config.on_attach or function()end
+            config.on_attach = function(client, bufnr)
+                common_on_attach(client, bufnr)
+                config_on_attach(client, bufnr)
+            end
 
             lspconfig[server].setup(config)
         end
