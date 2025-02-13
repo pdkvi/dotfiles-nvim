@@ -14,16 +14,26 @@ return
             "NvimTree", "lazy"
         }
 
-        vim.keymap.set({ "n", "i" }, "<C-q>", function()
+        local try_kill_ft = function()
+            local delete_buf = vim.api.nvim_get_current_buf()
+
             local current_ft = vim.api.nvim_get_option_value("filetype", {
-                buf = vim.api.nvim_get_current_buf()
+                buf = delete_buf
             })
 
             for _, ft in ipairs(unkillable_fts) do
-                if current_ft == ft then return end
+                if current_ft == ft then return false end
             end
 
             buffer.bufdelete(0, false)
+            return vim.api.nvim_get_current_buf() ~= delete_buf
+        end
+
+
+        vim.keymap.set({ "n", "i" }, "<C-q>", try_kill_ft)
+        vim.keymap.set({ "n", "i" }, "<C-S-q>", function()
+            if try_kill_ft() == false then return end
+            vim.api.nvim_win_close(0, false)
         end)
 
         require("scope").setup({})
