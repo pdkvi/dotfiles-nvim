@@ -47,12 +47,6 @@ return
             [vim.diagnostic.severity.INFO]  = '▓',
         }
 
-        local handlers =
-        {
-            ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-            ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-        }
-
         vim.diagnostic.config({
             virtual_text = { spacing = 0 },
             signs = { text = signs },
@@ -64,53 +58,59 @@ return
             vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
         end
 
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities.textDocument.foldingRange = {
+        local common_handlers =
+        {
+            ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+            ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+        }
+
+        local common_capabilities = vim.lsp.protocol.make_client_capabilities()
+        common_capabilities.textDocument.foldingRange =
+        {
             dynamicRegistration = false,
             lineFoldingOnly = true
         }
 
-        lspconfig.lua_ls.setup({
-            capabilities = capabilities,
-            handlers = handlers,
-            settings =
+        local servers =
+        {
+            lua_ls =
             {
-                Lua =
+                settings =
                 {
-                    diagnostics =
+                    Lua =
                     {
-                        disable =
+                        diagnostics =
                         {
-                            "redefined-local", "redundant-return-value"
+                            disable =
+                            {
+                                "redefined-local", "redundant-return-value"
+                            }
                         }
                     }
                 }
-            }
-        })
+            },
 
-        --lspconfig.ccls.setup({
-            --	capabilities = capabilities,
-            --	init_options = {
-                --		cache = { directory = vim.fs.normalize("~/.cache/ccls") }
-                --	}
-                --})
-                lspconfig.clangd.setup({
-                    handlers = handlers,
-                    capabilities = capabilities,
-                    cmd =
-                    {
-                        "clangd",
-                        "--header-insertion=never",
-                        "-j=4",
-                        "--malloc-trim",
-                        "--background-index",
-                        "--pch-storage=memory"
-                    }
-                })
+            clangd =
+            {
+                cmd =
+                {
+                    "clangd",
+                    "--header-insertion=never",
+                    "-j=4",
+                    "--malloc-trim",
+                    "--background-index",
+                    "--pch-storage=memory"
+                }
+            },
 
-                lspconfig.neocmake.setup({
-                    handlers = handlers,
-                    capabilities = capabilities
-                })
-            end
+            neocmake = {}
         }
+
+        for server, config in pairs(servers) do
+            config.capabilities = vim.tbl_extend("keep", config.capabilities or {}, common_capabilities)
+            config.handlers = vim.tbl_extend("keep", config.handlers or {}, common_handlers)
+
+            lspconfig[server].setup(config)
+        end
+    end
+}
