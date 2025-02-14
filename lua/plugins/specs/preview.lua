@@ -31,7 +31,7 @@ return
         vim.keymap.set("n", "<C-\\>", function() glance.open("implementations") end)
 
         -- TODO: create more meaningful keymaps for this features...
-        vim.keymap.set("n", "<leader>gr", function() glance.open("references") end)
-        vim.keymap.set("n", "<leader>gt", function() glance.open("type_definitions") end)
+        vim.keymap.set("n", "gr", function() glance.open("references") end)
+        vim.keymap.set("n", "gt", function() glance.open("type_definitions") end)
     end
 }
