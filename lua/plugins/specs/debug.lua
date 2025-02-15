@@ -69,6 +69,8 @@ return
             }
         }
 
+        dap.configurations.c = dap.configurations.cpp
+
         local dapui = require("dapui")
         dapui.setup({
             controls =
