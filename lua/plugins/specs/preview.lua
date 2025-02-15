@@ -32,6 +32,5 @@ return
 
         -- TODO: create more meaningful keymaps for this features...
         vim.keymap.set("n", "gr", function() glance.open("references") end)
-        vim.keymap.set("n", "gt", function() glance.open("type_definitions") end)
     end
 }
