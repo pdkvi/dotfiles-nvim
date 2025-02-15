@@ -53,7 +53,7 @@ return
             cmake.build({ target = nil })
         end)
 
-        vim.keymap.set("n", "<F17>", function()
+        vim.keymap.set("n", "<F29>", function()
             local co = coroutine.create(function()
                 local co = coroutine.running()
 
