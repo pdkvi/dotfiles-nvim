@@ -205,17 +205,30 @@ return
 
         vim.api.nvim_set_hl(0, "DapUIFloatBorder", { link = "FloatBorder" })
 
-        dap.listeners.before.attach.dapui_config = function()
+        local dapui_open = function()
+            local filetree = require("nvim-tree.api").tree
+            _G.dapui_closed_filetree = filetree.is_visible()
+
+            if _G.dapui_closed_filetree == true then
+                filetree.close_in_this_tab()
+            end
+
             dapui.open()
         end
-        dap.listeners.before.launch.dapui_config = function()
-            dapui.open()
-        end
-        dap.listeners.before.event_terminated.dapui_config = function()
+
+        local dapui_close = function()
             dapui.close()
+
+            if _G.dapui_closed_filetree == true then
+                local filetree = require("nvim-tree.api").tree
+                filetree.open()
+            end
         end
-        dap.listeners.before.event_exited.dapui_config = function()
-            dapui.close()
-        end
+
+        dap.listeners.before.attach.dapui_config = dapui_open
+        dap.listeners.before.launch.dapui_config = dapui_open
+
+        dap.listeners.before.event_terminated.dapui_config = dapui_close
+        dap.listeners.before.event_exited.dapui_config = dapui_close
     end
 }
