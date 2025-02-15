@@ -5,9 +5,12 @@ return
     init = function()
         local color = require("lackluster").color
         local accent_color = "#5a725a"
-
         require("lackluster").setup({
-            disable_plugin = {},
+            disable_plugin =
+            {
+                git_signs = true,
+                git_gutter = true
+            },
             tweak_syntax =
             {
                 string = accent_color,
@@ -30,5 +33,14 @@ return
         vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = color.orange })
 
         vim.api.nvim_set_hl(0, "ColorColumn", { fg = theme.ui.fg_statusline, bg = theme.ui.bg_statusline })
+
+        vim.api.nvim_set_hl(0, "Added", { fg = color.green })
+        vim.api.nvim_set_hl(0, "DiffAdded", { fg = color.green })
+
+        vim.api.nvim_set_hl(0, "Changed", { fg = color.orange })
+        vim.api.nvim_set_hl(0, "DiffChanged", { fg = color.orange })
+
+        vim.api.nvim_set_hl(0, "Removed", { fg = color.red })
+        vim.api.nvim_set_hl(0, "DiffRemoved", { fg = color.red })
     end
 }
