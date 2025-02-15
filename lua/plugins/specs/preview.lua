@@ -32,5 +32,7 @@ return
 
         -- TODO: create more meaningful keymaps for this features...
         vim.keymap.set("n", "gr", function() glance.open("references") end)
+
+        vim.api.nvim_set_hl(0, "GlancePreviewMatch", { link = "GlancePreviewNormal" })
     end
 }
