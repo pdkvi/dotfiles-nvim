@@ -239,6 +239,7 @@ return
                 completion =
                 {
                     side_padding = 0,
+                    scrolloff = 1,
                     winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None,FloatFooter:Pmenu",
                 },
                 documentation = {
