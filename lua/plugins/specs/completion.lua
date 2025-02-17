@@ -320,7 +320,7 @@ return
                 local kind_key = key:sub(4, 4)
 
                 local entry = (" %s%s "):format(kind_icon, kind_key)
-                table.insert(footer, { entry, _G.selected_cmp_filters[kinds] == true and "CmpItemKind" or "FloatFooter" })
+                table.insert(footer, { entry, _G.selected_cmp_filters[kinds] == true and "CmpItemKind" or "StatusLine" })
             end
 
             _G.cmp_entries_win_height = style.height
@@ -328,7 +328,7 @@ return
             {
                 footer = footer,
                 footer_pos = "center",
-                border = { "", "", "", "", "", " ", "", "" }
+                border = { "", "", "", "", "", { " ", "StatusLine" }, "", "" }
             }))
         end
 
