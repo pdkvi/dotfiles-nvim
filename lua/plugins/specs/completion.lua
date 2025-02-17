@@ -256,7 +256,7 @@ return
                 fields = { "kind", "abbr", "menu" },
 
                 format = function(_, vim_item)
-                    local item_width = 40
+                    local item_width = 45
                     local trunk = vim_item.abbr:sub(1, item_width)
                     if #trunk ~= #vim_item.abbr then
                         vim_item.abbr = trunk .. "..."
@@ -330,6 +330,20 @@ return
                 table.insert(footer, { entry, _G.selected_cmp_filters[kinds] == true and "CmpItemKind" or "StatusLine" })
             end
 
+            -- TODO: completion window may overlap statusline because window
+            --       can show less than `vim.o.pumheight` items and still
+            --       render from top-to-bottom.
+            --
+            --       possible solution:
+            --           if completion window start overlap statusline
+            --           (i.e. style.height < vim.o.pumheight) it is necessary
+            --           to open window in different direction.
+            --
+            --       main problems:
+            --           1) style.height always equal vim.o.pumheight
+            --              in `open()` method;
+            --           2) need to find out how to open completion window in
+            --              different direction.
             old_open(self, vim.tbl_extend("force", style,
             {
                 footer = footer,
