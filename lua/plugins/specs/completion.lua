@@ -304,12 +304,17 @@ return
             end
 
             local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+            _G.cmp_entries_win_height = style.height
 
             -- cursor row relative to editor
             local absolute_row = vim.fn.screenpos(0, row, col).row
 
             if absolute_row ~= style.row then
                 style.row = style.row - 1
+            else
+                if style.row + style.height > vim.o.lines - 2 then
+                    _G.cmp_entries_win_height = vim.o.lines - style.row - 2
+                end
             end
 
             local footer = {}
@@ -325,7 +330,6 @@ return
                 table.insert(footer, { entry, _G.selected_cmp_filters[kinds] == true and "CmpItemKind" or "StatusLine" })
             end
 
-            _G.cmp_entries_win_height = style.height
             old_open(self, vim.tbl_extend("force", style,
             {
                 footer = footer,
