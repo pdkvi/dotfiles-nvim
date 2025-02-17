@@ -255,13 +255,14 @@ return
                 fields = { "kind", "abbr", "menu" },
 
                 format = function(_, vim_item)
-                    local trunk = vim_item.abbr:sub(1, 70)
+                    local item_width = 40
+                    local trunk = vim_item.abbr:sub(1, item_width)
                     if #trunk ~= #vim_item.abbr then
                         vim_item.abbr = trunk .. "..."
                     end
 
-                    if vim_item.abbr:len() < 45 then
-                        vim_item.abbr = ("%s%s"):format(vim_item.abbr, (" "):rep(45 - vim_item.abbr:len()))
+                    if vim_item.abbr:len() < item_width then
+                        vim_item.abbr = ("%s%s"):format(vim_item.abbr, (" "):rep(item_width - vim_item.abbr:len()))
                     end
 
                     vim_item.menu = ("[%s]"):format(vim_item.kind)
