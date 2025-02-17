@@ -289,6 +289,7 @@ return
             })
         })
 
+        -- TODO: rewrite with public api? (hint: events)
         ---@diagnostic disable-next-line: invisible
         local old_open = cmp.core.view:_get_entries_view().entries_win.open
 
@@ -322,13 +323,25 @@ return
                 table.insert(footer, { entry, _G.selected_cmp_filters[kinds] == true and "CmpItemKind" or "FloatFooter" })
             end
 
-
+            _G.cmp_entries_win_height = style.height
             old_open(self, vim.tbl_extend("force", style,
             {
                 footer = footer,
                 footer_pos = "center",
                 border = { "", "", "", "", "", " ", "", "" }
             }))
+        end
+
+        ---@diagnostic disable-next-line: invisible
+        local old_update = cmp.core.view:_get_entries_view().entries_win.update
+
+        ---@diagnostic disable-next-line: invisible
+        cmp.core.view:_get_entries_view().entries_win.update = function(self)
+            -- increase scrollbar in update() method because changing height
+            -- before window construction (i.e. in open() method)
+            -- changes the size of the main window.
+            self.style.height = _G.cmp_entries_win_height + 1
+            old_update(self)
         end
 
         cmp.core.view.event:on("menu_closed", function()
