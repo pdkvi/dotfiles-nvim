@@ -340,7 +340,10 @@ return
             -- increase scrollbar in update() method because changing height
             -- before window construction (i.e. in open() method)
             -- changes the size of the main window.
-            self.style.height = _G.cmp_entries_win_height + 1
+            local api = require("cmp.utils.api")
+            if api.is_cmdline_mode() == false then
+                self.style.height = _G.cmp_entries_win_height + 1
+            end
             old_update(self)
         end
 
