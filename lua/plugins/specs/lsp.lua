@@ -60,8 +60,8 @@ return
 
         local common_handlers =
         {
-            ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-            ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+            ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", width = 100 }),
+            ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", width = 100 }),
         }
 
         local common_capabilities = vim.lsp.protocol.make_client_capabilities()
