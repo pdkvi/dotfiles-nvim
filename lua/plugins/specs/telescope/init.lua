@@ -30,6 +30,8 @@ return
             }
         })
 
+        vim.api.nvim_set_hl(0, "TelescopeMatching", { bold = true })
+
         telescope.load_extension("notify")
 
         local builtin = require('telescope.builtin')
