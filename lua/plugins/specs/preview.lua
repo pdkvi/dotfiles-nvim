@@ -14,6 +14,7 @@ return
 
         ---@diagnostic disable-next-line: missing-fields
         glance.setup({
+            detached = false,
             mappings =
             ---@diagnostic disable-next-line: missing-fields
             {
