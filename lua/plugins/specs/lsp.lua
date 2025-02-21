@@ -50,7 +50,7 @@ return
         vim.diagnostic.config({
             virtual_text = { spacing = 0 },
             signs = { text = signs },
-            float = { border = "rounded" }
+            float = { border = "rounded", width = 100 }
         })
 
         for type, icon in pairs(signs) do
