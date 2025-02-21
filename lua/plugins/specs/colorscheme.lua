@@ -1,7 +1,7 @@
 return
 {
     "slugbyte/lackluster.nvim",
-    proprity = 1000,
+    priority = 1000,
     init = function()
         local color = require("lackluster").color
         local accent_color = "#5a725a"
