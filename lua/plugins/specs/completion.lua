@@ -245,6 +245,7 @@ return
                 documentation = {
                     -- TODO: should set to NormalFloat somewhere in ideal world
                     winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+                    max_width = 100
                 }
             },
 
