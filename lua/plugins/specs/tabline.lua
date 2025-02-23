@@ -7,21 +7,8 @@ local theme =
     head = 'TabLine',
     current_tab = 'TabLineSel',
     tab = 'TabLine',
-    win = 'TabLine',
     tail = 'TabLine',
 }
-
----@param win TabbyWin
----@return boolean
-local function wins_filter(win)
-    -- local excluded_fts = { "edgy", "NvimTree", "trouble", "cmake_tools_terminal" }
-    -- local ft = vim.api.nvim_get_option_value("ft", { buf = win.buf().id })
-    local buft = vim.api.nvim_get_option_value("bt", { buf = win.buf().id })
-    local excluded_bufts = { "nofile", "prompt" }
-
-    return not vim.list_contains(excluded_bufts, buft)
-    -- and not vim.list_contains(excluded_fts, ft)
-end
 
 local function tab_rename()
     local input_opts = { prompt = "New tab name:", kind = "globally_centered" }
@@ -56,26 +43,18 @@ return
 
         vim.keymap.set("n", "<leader>tr", tab_rename)
 
-        require("tabby").setup({
+        local tabby = require("tabby")
+        tabby.setup({
             line = function(line)
                 return
                 {
                     {
-                        { '   ', hl = theme.head },
+                        { '   ', hl = theme.head },
+
                         line.sep(' ', theme.head, theme.fill),
                     },
 
-                    line.wins_in_tab(line.api.get_current_tab()).filter(wins_filter).foreach(function(win)
-                        return
-                        {
-                            line.sep('', theme.win, theme.fill),
-                            win.is_current() and '' or '',
-                            win.buf_name(),
-                            line.sep('', theme.win, theme.fill),
-                            hl = theme.win,
-                            margin = ' ',
-                        }
-                    end),
+                    { "TIME: " .. os.date("%H:%M") },
 
 
                     line.spacer(),
