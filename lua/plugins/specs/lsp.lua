@@ -72,7 +72,9 @@ return
         }
 
         local common_on_attach = function(client, bufnr)
-            vim.opt.tagfunc = "v:lua.preview_tagfunc"
+            if client.server_capabilities.definitionProvider then
+                vim.opt.tagfunc = "v:lua.preview_tagfunc"
+            end
         end
 
         local servers =
