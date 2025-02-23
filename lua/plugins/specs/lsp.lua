@@ -75,6 +75,22 @@ return
             if client.server_capabilities.definitionProvider then
                 vim.opt.tagfunc = "v:lua.preview_tagfunc"
             end
+
+            -- TODO: update winbar after lsp load
+            if client.server_capabilities.documentSymbolProvider then
+                require("nvim-navic").attach(client, bufnr)
+
+                local wins = vim.iter(vim.api.nvim_list_tabpages())
+                    :map(function(tabpage)
+                        return vim.api.nvim_tabpage_list_wins(tabpage)
+                    end):flatten()
+
+                wins:filter(function(win) return vim.api.nvim_win_get_buf(win) == bufnr end)
+
+                wins:each(function(win)
+                    vim.wo[win].winbar = " %{%v:lua.require'nvim-navic'.get_location()%}"
+                end)
+            end
         end
 
         local servers =
