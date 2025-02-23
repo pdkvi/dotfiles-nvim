@@ -79,6 +79,7 @@ return
             -- TODO: update winbar after lsp load
             if client.server_capabilities.documentSymbolProvider then
                 require("nvim-navic").attach(client, bufnr)
+                require("nvim-navbuddy").attach(client, bufnr)
 
                 local wins = vim.iter(vim.api.nvim_list_tabpages())
                     :map(function(tabpage)
