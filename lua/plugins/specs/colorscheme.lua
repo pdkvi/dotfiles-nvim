@@ -31,6 +31,9 @@ return
         vim.api.nvim_set_hl(0, "WinBar", { fg = color.gray6, bg = color.gray2, bold = false })
         vim.api.nvim_set_hl(0, "WinBarNC", { fg = color.gray6, bg = color.gray2, bold = false })
 
+        vim.api.nvim_set_hl(0, "TabLine", { fg = color.gray5, bg = color.gray2, bold = false })
+        vim.api.nvim_set_hl(0, "TabLineFill", { fg = color.gray7, bg = theme.ui.bg_statusline, bold = true })
+
         vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = color.orange })
 
         vim.api.nvim_set_hl(0, "ColorColumn", { fg = theme.ui.fg_statusline, bg = theme.ui.bg_statusline })
