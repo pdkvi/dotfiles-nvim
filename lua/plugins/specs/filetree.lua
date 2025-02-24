@@ -88,5 +88,109 @@ return
                 end
             end
         })
+
+        -- vvv god bless this mess vvv
+
+        local complete_fn = function(arg)
+            return vim.tbl_filter(function(str)
+                return str:match("^" .. arg)
+            end, { "enable", "disable" })
+        end
+
+        vim.api.nvim_create_user_command("CMakeAutoInsert", function(opts)
+            _G.cmake_autoinsert_enabled = opts.args == "enable" and true or false
+        end, { nargs = 1, complete = complete_fn })
+
+        _G.cmake_autoinsert_enabled = true
+
+        local Event = api.events.Event
+        api.events.subscribe(Event.FileCreated, function(data)
+            if _G.cmake_autoinsert_enabled == false then return end
+
+            ---@type string
+            local filename = vim.fs.basename(data.fname)
+            if filename:find("%.c$") == nil and filename:find("%.cpp$") == nil then
+                return
+            end
+
+            local cwd = vim.uv.cwd() .. "/"
+            local rpath = data.fname
+
+            local Path = require("plenary.path")
+            while true do
+                ::continue::
+                rpath = rpath:match("(.*/).+$")
+                if #rpath < #cwd then
+                    vim.notify(
+                        ("Unable to add '%s' to any CMakeLists.txt"):format(filename),
+                        vim.log.levels.INFO, { title = "CMake" }
+                    )
+                    break
+                end
+
+                local cmakelists_path = rpath .. "CMakeLists.txt"
+                if Path:new(cmakelists_path):exists() == false then
+                    goto continue
+                end
+
+                local file = assert(io.open(cmakelists_path, "r+"))
+                local lines = {}
+
+                local it = file:lines()
+                for line in it do
+                    if line:find("^%s*target_sources%s*%(") ~= nil then
+                        local ins_pos = line:find("%)$")
+                        if ins_pos ~= nil then
+                            line = line:gsub("%)$", (' "%s")'):format(data.fname:gsub(rpath, "./")))
+                            table.insert(lines, line)
+                            goto forbreak
+                        end
+
+                        table.insert(lines, line)
+
+                        if line:find("\"?.+%.c\"?") or
+                           line:find("\"?.+%.cpp\"?")
+                        then
+                            table.insert(lines, ('\t"%s"'):format(data.fname:gsub(rpath, "./")))
+                            goto forbreak
+                        end
+
+                        for subline in it do
+                            table.insert(lines, subline)
+
+                            if subline:find("\"?.+%.c\"?") or
+                               subline:find("\"?.+%.cpp\"?")
+                            then
+                                table.insert(lines, ('\t"%s"'):format(data.fname:gsub(rpath, "./")))
+                                goto forbreak
+                            end
+                        end
+                    else
+                        table.insert(lines, line)
+                    end
+                end
+
+                file:close()
+                goto continue
+
+                ::forbreak::
+                for line in it do
+                    table.insert(lines, line)
+                end
+
+                file:seek("set", 0)
+                for _, line in ipairs(lines) do file:write(line .. "\n") end
+
+                file:close()
+
+                vim.notify(
+                    ("File '%s' added to '%s'"):format(filename, cmakelists_path:gsub(cwd, "./")),
+                    vim.log.levels.INFO, { title = "CMake" }
+                )
+
+                vim.cmd("checktime")
+                break
+            end
+        end)
     end
 }
