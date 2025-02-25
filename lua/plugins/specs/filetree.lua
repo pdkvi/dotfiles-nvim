@@ -178,15 +178,34 @@ return
                     table.insert(lines, line)
                 end
 
+                if Path:new(cwd .. ".git"):exists() == false then
+                    local rcmakelists_path = cmakelists_path:gsub(cwd, "./")
+
+                    local prompt =
+                        "File '%s' added to '%s'\n\n" ..
+                        "NOTE: modifying CMakeLists.txt that is not in the versioning system,\n" ..
+                        "creating a backup of '%s'..."
+
+                    vim.notify(
+                        prompt:format(filename, rcmakelists_path, rcmakelists_path .. ".bak"),
+                        vim.log.levels.WARN, { title = "CMake" }
+                    )
+
+                    local backup = assert(io.open(cmakelists_path .. ".bak", "w"))
+                    for line in io.lines(cmakelists_path) do
+                        backup:write(line .. "\n")
+                    end
+                    backup:close()
+                else
+                    vim.notify(
+                        ("File '%s' added to '%s'"):format(filename, cmakelists_path:gsub(cwd, "./")),
+                        vim.log.levels.INFO, { title = "CMake" }
+                    )
+                end
+
                 file:seek("set", 0)
                 for _, line in ipairs(lines) do file:write(line .. "\n") end
-
                 file:close()
-
-                vim.notify(
-                    ("File '%s' added to '%s'"):format(filename, cmakelists_path:gsub(cwd, "./")),
-                    vim.log.levels.INFO, { title = "CMake" }
-                )
 
                 vim.cmd("checktime")
                 break
