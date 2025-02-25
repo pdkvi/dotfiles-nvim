@@ -109,7 +109,7 @@ return
 
             ---@type string
             local filename = vim.fs.basename(data.fname)
-            if filename:find("%.c$") == nil and filename:find("%.cpp$") == nil then
+            if filename:find(".+%.c$") == nil and filename:find(".+%.cpp$") == nil then
                 return
             end
 
