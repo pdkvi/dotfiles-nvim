@@ -139,9 +139,9 @@ return
                 local it = file:lines()
                 for line in it do
                     if line:find("^%s*target_sources%s*%(") ~= nil then
-                        local ins_pos = line:find("%)$")
+                        local ins_pos = line:find("%)%s*$")
                         if ins_pos ~= nil then
-                            line = line:gsub("%)$", (' "%s")'):format(data.fname:gsub(rpath, "./")))
+                            line = line:gsub("%)%s*$", (' "%s")'):format(data.fname:gsub(rpath, "./")))
                             table.insert(lines, line)
                             goto forbreak
                         end
