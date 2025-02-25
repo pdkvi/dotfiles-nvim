@@ -143,7 +143,7 @@ return
                         if ins_pos ~= nil then
                             line = line:gsub("%)%s*$", (' "%s")'):format(data.fname:gsub(rpath, "./")))
                             table.insert(lines, line)
-                            goto forbreak
+                            goto insertion_complete
                         end
 
                         table.insert(lines, line)
@@ -152,7 +152,7 @@ return
                            line:find("\"?.+%.cpp\"?")
                         then
                             table.insert(lines, ('\t"%s"'):format(data.fname:gsub(rpath, "./")))
-                            goto forbreak
+                            goto insertion_complete
                         end
 
                         for subline in it do
@@ -162,7 +162,7 @@ return
                                subline:find("\"?.+%.cpp\"?")
                             then
                                 table.insert(lines, ('\t"%s"'):format(data.fname:gsub(rpath, "./")))
-                                goto forbreak
+                                goto insertion_complete
                             end
                         end
                     else
@@ -173,7 +173,7 @@ return
                 file:close()
                 goto continue
 
-                ::forbreak::
+                ::insertion_complete::
                 for line in it do
                     table.insert(lines, line)
                 end
