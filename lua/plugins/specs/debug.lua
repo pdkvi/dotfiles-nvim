@@ -18,13 +18,6 @@ return
         vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "Error" })
         vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "Error" })
 
-        local color = require("lackluster.color")
-
-        vim.api.nvim_set_hl(0, "DapStoppedText", { fg = color.yellow, bold = true })
-
-        -- cursorline
-        -- vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
-        vim.api.nvim_set_hl(0, "DapStoppedLine", { bg = color.gray2 })
         vim.fn.sign_define("DapStopped", { text = " ", texthl = "DapStoppedText", linehl = "DapStoppedLine" })
 
         vim.keymap.set("n", "<F5>", dap.continue)
@@ -181,29 +174,6 @@ return
             }
 
         })
-
-        vim.api.nvim_set_hl(0, "DapUIScope", { link = "WinBar" })
-        vim.api.nvim_set_hl(0, "DapUIThread", { link = "WinBar" })
-        vim.api.nvim_set_hl(0, "DapUIStoppedThread", { link = "WinBar" })
-        vim.api.nvim_set_hl(0, "DapUIBreakpointsPath", { link = "WinBar" })
-
-        vim.api.nvim_set_hl(0, "DapUIDecoration", { link = "FoldColumn" })
-        vim.api.nvim_set_hl(0, "DapUIWatchesValue", { link = "FoldColumn" })
-
-        vim.api.nvim_set_hl(0, "DapUIType", { link = "Type" })
-
-        vim.api.nvim_set_hl(0, "DapUISource", { link = "Conceal" })
-        vim.api.nvim_set_hl(0, "DapUILineNumber", { link = "Conceal" })
-
-        vim.api.nvim_set_hl(0, "DapUIBreakpointsInfo", { link = "QuickFixLine" })
-        vim.api.nvim_set_hl(0, "DapUIBreakpointsCurrentLine", { link = "QuickFixLine" })
-
-        vim.api.nvim_set_hl(0, "DapUIWatchesEmpty", { link = "ErrorMsg" })
-        vim.api.nvim_set_hl(0, "DapUIWatchesError", { link = "ErrorMsg" })
-
-        vim.api.nvim_set_hl(0, "DapUIModifiedValue", { link = "WarningMsg" })
-
-        vim.api.nvim_set_hl(0, "DapUIFloatBorder", { link = "FloatBorder" })
 
         local dapui_open = function()
             local filetree = require("nvim-tree.api").tree

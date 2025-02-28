@@ -393,22 +393,5 @@ return
             formatting = cmdline_formatting,
             sources = { { name = "cmdline" } }
         })
-
-        local higroup_names = { "CmpItemKind" }
-
-        for kind in pairs(kind_icons) do
-            if type(kind) == "string" then
-                higroup_names[#higroup_names + 1] = ("CmpItemKind%s"):format(kind)
-            end
-        end
-
-        for _, name in ipairs(higroup_names) do
-            local group = vim.api.nvim_get_hl(0, { name = name, link = false })
-            vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", group, { reverse = true }))
-        end
-
-        vim.api.nvim_set_hl(0, "CmpItemMenu",
-        vim.tbl_extend("force", vim.api.nvim_get_hl(0, { name = "CmpItemMenu" }), { bold = true })
-        )
     end
 }
