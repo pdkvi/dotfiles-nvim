@@ -122,10 +122,10 @@ return
             vim.api.nvim_set_hl(0, "DiffAdded", { fg = color.green })
 
             vim.api.nvim_set_hl(0, "Changed", { fg = color.orange })
-            vim.api.nvim_set_hl(0, "DiffChanged", { fg = color.orange })
+            vim.api.nvim_set_hl(0, "DiffChange", { fg = color.orange })
 
             vim.api.nvim_set_hl(0, "Removed", { fg = color.red })
-            vim.api.nvim_set_hl(0, "DiffRemoved", { fg = color.red })
+            vim.api.nvim_set_hl(0, "DiffDelete", { fg = color.red })
         end, {})
 
         local color = require("lackluster").color
