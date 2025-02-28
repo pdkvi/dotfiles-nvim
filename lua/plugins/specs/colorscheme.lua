@@ -81,8 +81,15 @@ end
 return
 {
     "slugbyte/lackluster.nvim",
+    dependencies = { "yorickpeterse/nvim-grey" },
     priority = 1000,
     init = function()
+        vim.api.nvim_create_user_command("Light", function()
+            vim.cmd("hi clear")
+            vim.cmd.colorscheme("grey")
+            common_integrations()
+        end, {})
+
         vim.api.nvim_create_user_command("Dark", function()
             vim.cmd("hi clear")
 
