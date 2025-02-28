@@ -88,6 +88,33 @@ return
             vim.cmd("hi clear")
             vim.cmd.colorscheme("grey")
             common_integrations()
+
+            ---@param name string
+            ---@param val vim.api.keyset.highlight
+            local function update_hl(name, val)
+                local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+                vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", hl, val))
+            end
+
+            -- TODO: maybe extract this to common highlight
+            vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+            vim.api.nvim_set_hl(0, "DapStoppedText", { fg = "#b37f02", bold = true })
+
+            update_hl("TabLineSel", { bg = "#e6e6e6", bold = false })
+            update_hl("TabLineFill", { bg = "#c3c3c3", bold = true })
+            update_hl("Directory", { fg = "#000000", bold = true })
+
+            update_hl("PmenuSbar", { bg = "#dddddd" })
+            update_hl("PmenuThumb", { bg = "#bbbbbb" })
+
+            update_hl("StatusLine", { bg = "#d9d9d9" })
+            update_hl("WinBar", { bg = "#dddddd" })
+
+            update_hl("Changed", { fg = "#b37f02" })
+            update_hl("DiffChange", { fg = "#b37f02" })
+            update_hl("GitSignsChange", { fg = "#b37f02" })
+
+            update_hl("FoldColumn", { fg = "#5e5e5e" })
         end, {})
 
         vim.api.nvim_create_user_command("Dark", function()
