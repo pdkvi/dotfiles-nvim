@@ -19,7 +19,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- setup lazy.nvim
 require("lazy").setup({
-    install = { colorscheme = { "lackluster-dark" } },
+    -- install = { colorscheme = { "lackluster-dark" } },
     change_detection = { notify = false },
     spec =
     {

@@ -174,6 +174,15 @@ return
             tweak_background = { popup = "none" },
         })
 
-        vim.cmd("Dark")
+        local colorscheme_grep = vim.system({
+            "grep", "papertheme",
+            vim.env.HOME .. "/.config/alacritty/alacritty.toml"
+        }, {}):wait()
+
+        if colorscheme_grep.code == 0 then
+            vim.cmd("Light")
+        else
+            vim.cmd("Dark")
+        end
     end
 }
