@@ -39,5 +39,9 @@ return
         vim.keymap.set('n', '<leader>fb', function() buffers({ excluded_bt = { "terminal" } }) end, {})
         vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
         vim.keymap.set('n', '<leader>fm', function() builtin.man_pages({ sections = { "ALL" } }) end, {})
+
+        vim.keymap.set('n', '<leader>gs', builtin.git_status, {})
+        vim.keymap.set('n', '<leader>gc', builtin.git_bcommits, {})
+        vim.keymap.set('n', '<leader>gb', builtin.git_branches, {})
     end
 }
