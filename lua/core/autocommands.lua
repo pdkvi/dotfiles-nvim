@@ -4,6 +4,13 @@ vim.api.nvim_create_autocmd("FileType", {
     callback = function() vim.opt.formatoptions:remove({ "r", "o" }) end
 })
 
+vim.api.nvim_create_autocmd("TermOpen", {
+    pattern = "*",
+    callback = function()
+        vim.cmd("setlocal scrolloff=0")
+    end
+})
+
 -- restore cursor position
 vim.api.nvim_create_autocmd('BufRead',
 {
