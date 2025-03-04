@@ -1,6 +1,8 @@
 return
 {
     "Civitasv/cmake-tools.nvim",
+    dependencies = { {"akinsho/toggleterm.nvim", opts = { direction = "horizontal" }} },
+
     config = function()
         local const = vim.tbl_extend("force", require("cmake-tools.const"),
         {
@@ -17,6 +19,26 @@ return
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
             },
             cmake_dap_configuration = { type = "lldb" },
+            cmake_executor = {
+                name = "toggleterm",
+                default_opts =
+                {
+                    toggleterm =
+                    {
+                        direction = "horizontal", -- 'vertical' | 'horizontal' | 'tab' | 'float'
+                        close_on_exit = false, -- whether close the terminal when exit
+                        auto_scroll = true, -- whether auto scroll to the bottom
+                        singleton = true, -- single instance, autocloses the opened one, if present
+                    },
+                }
+            },
+
+            cmake_notifications =
+            {
+                runner = { enabled = false },
+                executor = { enabled = false }
+            },
+
             cmake_virtual_text_support = false
         })
 
