@@ -123,7 +123,10 @@ return
                     "--malloc-trim",
                     "--background-index",
                     "--pch-storage=memory"
-                }
+                },
+                on_attach = function()
+                    vim.keymap.set("n", "<F4>", "<cmd>ClangdSwitchSourceHeader<cr>")
+                end
             },
 
             neocmake = {}
